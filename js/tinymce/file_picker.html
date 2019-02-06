@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+	<meta charset="UTF-8" />
+	<title>File picker</title>
+	<link href="/css/reset.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<style type="text/css">
+		#dir_holder {
+			float: left;
+			width: 100px;
+			padding-top: 5px;
+		}
+		#dir_holder ul li {
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+		#dir_holder ul li.active {
+			background-color: #ddd;
+		}
+		#file_holder {
+			border-left: solid 1px #aaa;
+			margin-left: 100px;
+			height: 300px;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		#file_holder div {
+			display: none;
+		}
+		#file_holder div.active {
+			display: block;
+		}
+		#file_holder div ul li {
+			padding: 2px 10px;
+		}
+		#file_holder div ul li:hover {
+			background-color: #e0e0e0;
+		}
+		#file_holder div ul li span {
+			margin-right: 20px;
+			display: inline-block;
+			font-size: 13px;
+		}
+		#file_holder div ul li span.name {
+			cursor: pointer;
+		}
+		#file_holder_header{
+			border-left: solid 1px #aaa;
+			margin-left: 100px;
+			padding: 3px 0;
+		}
+		#file_holder_header span {
+			margin-right: 20px;
+			display: inline-block;
+			font-size: 13px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.name {
+			width: 300px;
+		}
+		.size {
+			width: 60px;
+		}
+		.modif {
+			width: 100px;
+		}
+	</style>
+	<script type="text/javascript">
+		var data;
+		var curr_dir = '';
+		$(function() {
+			$.ajax({
+				url: '/admin/file_list',
+				type: 'GET',
+				data: 'type=all',
+				dataType: 'json',
+				error: function (data) {
+					alert('Ajax error!');
+				},
+				success: function (response) {
+					//console.log(response);
+					data = response;
+					set_dir();
+					set_files();
+					// click events
+					$('#dir_holder ul li').click(function(){
+						curr_dir = $(this).text();
+						$('#dir_holder ul li.active').removeClass('active');
+						$('#dir_holder ul li:contains("' + curr_dir + '")').addClass('active');
+						
+						$('#file_holder div').hide();
+						$('#' + curr_dir).show();
+					});
+					$('#file_holder div ul li span.name').click(function(){
+						var curr_file = $(this).text();
+						set_url('files/' + curr_dir + '/' + curr_file);
+					});
+				}
+			});
+		});
+		function set_dir() {
+			var i = 0;
+			$.each(data.directories, function (key, val) {
+				$('#dir_holder ul').append('<li' + (i == 0 ? ' class="active"' : '') + '>' + val + '</li>');
+				$('#file_holder').append('<div id="' + val + '" ' + (i == 0 ? ' class="active"' : '') + '><ul></ul></dir>');
+				if (i == 0) curr_dir = val;
+				i++;
+			});
+		}
+		function set_files() {
+			$.each(data.files, function (dir, files) {
+				$.each(files, function (key, val) {
+					$('#' + dir + ' ul').append('<li><span class="name">' + val.name + '</span><span class="size">' + val.size + '</span><span class="modif">' + convert_date(val.modif) + '</span></li>');
+				});
+			});
+		}
+		function set_url(value) {
+			window.parent.document.getElementById(parent.field_name).value = 'http://' + parent.base + '/' + value;
+			window.parent.tinymce.activeEditor.windowManager.close(window);
+		}
+		function convert_date(unixtime) {
+			var d = new Date( );
+			d.setTime(unixtime * 1000);
+			dateString = (d.getDate() < 10 ? '0' : '') + d.getDate() + '.' + ((d.getMonth() + 1) < 10 ? '0' : '') + (d.getMonth() + 1) + '.' + d.getFullYear()
+				+ ' ' + (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+			return dateString;
+		}
+	</script>
+</head>
+<body>
+	<div id="dir_holder"><ul></ul></div>
+	<div id="file_holder_header">
+		<span class="name">File name</span>
+		<span class="size">Size</span>
+		<span class="modif">Last modifed</span>
+	</div>
+	<div id="file_holder"></div>
+</body>
+</html>

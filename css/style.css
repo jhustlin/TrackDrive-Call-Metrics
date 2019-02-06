@@ -1,0 +1,88 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: Ghotic;
+	font-size: 12px;
+	min-height: 100%;
+}
+body {
+	/*position: relative;*/ /* needed for the overlay to extend when you scroll */
+}
+.p_overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.3);
+	z-index: 10;
+}
+.p_modal {
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	position: fixed;
+	top: 50%; 
+	left: 50%;
+	margin-top: -16px;
+	margin-left: -16px;
+	text-align: center;
+	z-index: 11;
+}
+.progress {
+	display: none;
+}
+
+#menu {
+	height: 25px;
+	border: solid 1px #aaa;
+	text-align: center;
+}
+#menu ul {
+	display: inline-block;
+	height: 25px;
+}
+#menu ul li {
+	float: left
+}
+#menu ul li a {
+	height: 25px;
+	line-height: 25px;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.wrapper {
+	width: 900px;
+	margin: 0 auto;
+}
+#language_holder {
+	text-align: right;
+	padding: 5px 0;
+}
+#menu_h {
+	display: block;
+	background-color: #bbb;
+	text-align: center;
+}
+#menu_h li {
+	display: inline-block;
+	margin: 0 5px;
+}
+#menu_h li a {
+	display: inline-block;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #222;
+}
+#menu_h li a:hover, #menu_h li.active a {
+	background-color: #ddd;
+}
+#content {
+	padding: 10px;
+	min-height: 400px;
+	border-left: solid 1px #bbb;
+	border-right: solid 1px #bbb;
+	border-bottom: solid 1px #bbb;
+}
+

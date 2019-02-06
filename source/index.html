@@ -1,0 +1,420 @@
+<?php 
+// You must require the trackdrive library in order to display numbers
+require('trackdrive.php'); 
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Trackdrive Display Number Example</title>
+	<style>
+		body{
+			padding: 20px;
+			font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+		}
+		h1{
+			font-size: 24px;
+		}
+		h2{
+			font-size: 18px;
+			line-height: 24px;
+		}
+		h3{
+			font-size: 14px;
+		}
+		a{
+			color: #689664;
+			text-decoration: none;
+		}
+		.container{
+			margin: 0 auto;
+			max-width: 1000px;
+		}
+		.section{
+			margin-bottom: 60px;
+		}
+		.example h2:first-child{
+			margin-top: 0;
+		}
+		.code+h2{
+			margin-top: 20px;
+		}
+		.example{
+			margin: 20px 0;
+			padding: 20px;
+			border: 1px solid #ccc;
+			background-color: #eee;
+		}
+		.example h2{
+			margin: 0;
+		}
+		.example h2+h2{
+			margin-top: 10px;
+		}
+		.code{
+			margin: 10px 0;
+			padding: 20px;
+			color: #fff;
+			background-color: #689664;
+			border: 1px solid #689664;
+		}
+		pre.code{
+			padding: 0px;
+			font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+			padding-top: 30px;
+			line-height: 24px;
+		}
+		.extension,
+		.number{
+			margin: 10px 0;
+			padding: 10px;
+			border: 1px solid #ccc;
+			background-color: #fff;
+		}
+		.valid-options{
+			background-color: #fff;
+			width: 100%;
+			border-spacing:0;
+			border-collapse: collapse;
+		}
+		.valid-options th{
+			color: #fff;
+			background-color: #689664;
+			border: 1px solid #689664;
+			margin: 0;
+			padding: 10px;
+			text-align: left;
+		}
+		.valid-options td{
+			border: 1px solid #ddd;
+			margin: 0;
+			padding: 10px;
+			text-align: left;
+		}
+		.valid-options .attribute{
+			font-weight: bold;
+			vertical-align: top;
+		}
+		.valid-options .valid-options{
+			background-color: #f2f2f2;
+		}
+		.valid-options .valid-options th{
+			color: #406D3C;
+			background-color: #ACD4A9;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+
+		<div id="download" class="section">
+			<h1><a href="#download">1. Download</a></h1>
+			<div class="example">
+				<h2>Get the library:</h2>
+				<h2>
+					<a target="blank" href="http://trackdrive.s3-website-us-east-1.amazonaws.com/trackdrive-php/trackdrive-php.zip">Click here to download trackdrive.php</a>
+				</h2>
+			</div>
+		</div>
+
+		<div id="setup" class="section">
+			<h1><a href="#setup">2. Setup</a></h1>
+			<div class="example">
+				<h2>Upload the library to your website</h2>
+				<p>1. Upload <strong>ping.php</strong> and <strong>trackdrive.php</strong> to your website.</p>
+				<p>2. Place the following code at the top of your page:</p>
+				<div class="code">
+					&lt;?php require('trackdrive.php'); ?>
+				</div>
+			</div>
+		</div>
+
+		<div id="usage" class="section">
+			<h1><a href="#usage">3. Usage</a></h1>
+
+			<div class="example">
+				<h2>Display a number</h2>
+				<div class="code">
+					&lt;?php show_trackdrive_number('8519320582390jf9082j9032'); ?>
+				</div>
+				<h3>Output:</h3>
+				<div class="number">(855) 367-3640</div>
+			</div>
+
+			<div class="example">
+				<h2>Display a number's extension</h2>
+				<div class="code">
+					&lt;?php show_trackdrive_extension('8519320582390jf9082j9032'); ?>
+				</div>
+				<h3>Output:</h3>
+				<div class="extension">657</div>
+			</div>
+		</div>
+
+		<div id="number-pinging" class="section">
+			<h1><a href="#number-pinging">4. Enable Number Pinging</a></h1>
+			<div class="example">
+				<p>Number's can be associated with the user for as long as they are on the website by pinging.</p>
+				<p>1. Upload <strong>ping.php</strong> to the server where your webpage is running.</p>
+				<p>2. Place this code snippet at the bottom of your webpage. It must be placed after the 'show_trackdrive_number' code.</p>
+				<div class="code">
+					&lt;?php enable_pinging_trackdrive_numbers(); ?>
+				</div>
+			</div>
+		</div>
+
+		<div id="default-number-example" class="section">
+			<h1><a href="#default-number-example">Default Number Example</a></h1>
+
+			<div class="example">
+				<h2>Display a number with a default fallback</h2>
+				<pre class="code">
+					$options = array(
+					'default_number' => '(800) 234-1111', 
+					);
+
+					show_trackdrive_number('invalid_offer_id', $options);
+
+				</pre>
+				<h3>Output:</h3>
+				<div class="number">(800) 234-1111</div>
+			</div>
+
+			<div class="example">
+				<h2>Set a default extension:</h2>
+				<pre class="code">
+					$options = array(
+					'default_extension' => '1111', 
+					);
+
+					show_trackdrive_extension('invalid_offer_id', $options);
+
+				</pre>
+				<h3>Output:</h3>
+				<div class="extension">1111</div>
+			</div>
+		</div>
+
+		<div id="advanced-example" class="section">
+			<h1><a href="#advanced-example">Advanced Example</a></h1>
+
+			<div class="example">
+				<h2>Set a default number and extension. Pass additional tokens.</h2>
+				<pre class="code">
+					&lt;?php
+					$options = array(
+					'format' => 'plain',
+					'default_number' => '1-800-1111', 
+					'default_extension' => '111'
+					);
+
+					$tokens = array('afid' => 'jerry');
+
+					show_trackdrive_number('8519320582390jf9082j9032', $options, $tokens);
+					show_trackdrive_extension('8519320582390jf9082j9032', $options, $tokens);
+					?>
+
+				</pre>
+				<h3>Output:</h3>
+
+				<div class="number">+18006299238</div>
+				<div class="extension">645</div>
+			</div>
+		</div>
+
+		<div id="valid-options" class="section">
+			<h1><a href="#valid-options">Valid Options</a></h1>
+			<p>These are the options that can be passed as a second argument to:</p>
+			<p><strong>show_trackdrive_number($key, $options)</strong></p>
+			<p><strong>show_trackdrive_extension($key, $options)</strong></p>
+
+			<table class="valid-options">
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attribute">default_number</td>
+						<td>A <strong>String</strong> that will be outputted if a number isn't available.</td>
+					</tr>
+					<tr>
+						<td class="attribute">default_extension</td>
+						<td>A <strong>String</strong> that will be outputted if an extension isn't available.</td>
+					</tr>
+					<tr>
+						<td class="attribute">format</td>
+						<td>
+							<p><strong>String</strong></p>
+							<p>The format for the displayed number. The acceptable values are:</p>
+							<table class="valid-options">
+								<tr>
+									<th>Accepted Value</th>
+									<th>Example</th>
+								</tr>
+								<tr>
+									<td class="attribute">plain</td>
+									<td>+18001231234</td>
+								</tr>
+								<tr>
+									<td class="attribute">human</td>
+									<td>(800) 123-1234</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="sniffed-url-options" class="section">
+			<h1><a href="#sniffed-url-options">Trackdrive Tokens</a></h1>
+			<p>Trackdrive exposes a global Array variable <strong>$trackdrive_tokens</strong> with these predefined tokens and values:</p>
+		
+			<table class="valid-options">
+				<thead>
+					<tr>
+						<th>Token Key</th>
+						<th>Token Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attribute">full_url</td>
+						<td>The request url</td>
+					</tr>
+					<tr>
+						<td class="attribute">source_host</td>
+						<td>The http host</td>
+					</tr>
+					<tr>
+						<td class="attribute">source_pathname</td>
+						<td>The url path name</td>
+					</tr>
+					<tr>
+						<td class="attribute">source_query</td>
+						<td>The url query string</td>
+					</tr>
+					<tr>
+						<td class="attribute">ip</td>
+						<td>The remote ip address</td>
+					</tr>
+					<tr>
+						<td class="attribute">useragent</td>
+						<td>The useragent</td>
+					</tr>
+					<tr>
+						<td class="attribute">osversion</td>
+						<td>The operating system</td>
+					</tr>
+					<tr>
+						<td class="attribute">os</td>
+						<td>The operating system</td>
+					</tr>
+					<tr>
+						<td class="attribute">browser</td>
+						<td>The browser</td>
+					</tr>
+					<tr>
+						<td class="attribute">browserversion</td>
+						<td>The browser version</td>
+					</tr>
+				</tbody>	
+			</table>
+
+			<pre class="code">
+			&lt;?php
+				$options = array();
+
+				// setup any tokens you want to add or override from the URL
+				$tokens = array(
+					'fu'	=>		$trackdrive_tokens['full_url'],
+					'sh'	=>		$trackdrive_tokens['source_host'], 		// 'website.com'
+					'sp'	=>		$trackdrive_tokens['source_pathname'],	// 'somepath'
+					'sq'	=>		$trackdrive_tokens['source_query'], 	// '?query=ae'
+					'ip'	=>		$trackdrive_tokens['ip'], 				// '192.168.0.1'
+					'ua'	=>		$trackdrive_tokens['useragent'], 		// 'Mozilla/5.0 '
+					'osv'	=>		$trackdrive_tokens['osversion'], 		// 'Mac OS X'
+					'os'	=>		$trackdrive_tokens['os'], 				// 'Mac'
+					'b'	=>		$trackdrive_tokens['browser'],			// 'Chrome'
+					'bv'	=>		$trackdrive_tokens['browserversion'], 	// '50.0.2661.94'
+				);
+
+				show_trackdrive_number('8519320582390jf9082j9032', $options, $tokens);
+				show_trackdrive_extension('8519320582390jf9082j9032', $options, $tokens);
+			?>
+
+			</pre>
+
+		</div>
+
+		<div id="sniffed-url-options" class="section">
+			<h1><a href="#sniffed-url-options">Valid Query Parameters</a></h1>
+			<p>These are the options that can be passed by the url:</p>
+			
+			<table class="valid-options">
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attribute">dn</td>
+						<td>The default number that will be used if a number isn't available.</td>
+					</tr>
+					<tr>
+						<td class="attribute">dne</td>
+						<td>The default extension that will be used if a number isn't available.</td>
+					</tr>
+					<tr>
+						<td class="attribute">tfn</td>
+						<td>
+							<p>Display a cached plain number instead of requesting another number from the API.</p>
+							<p>If $_GET['tfn'] is set this number will be used instead of requesting a number from the trackdrive API.</p>
+							<p> This is useful if you want to redirect the user somewhere and display a number you've already pulled on a previous page.</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="attribute">ftfn</td>
+						<td>
+							<p>Display a cached formatted number instead of requesting another number from the API.</p>
+							<p>If $_GET['ftfn'] is set this number will be used instead of requesting a number from the trackdrive API.</p>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="attribute">tfne</td>
+						<td>
+							<p>Display a cached extension instead of requesting another number from the API.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<div id="troubleshooting" class="section">
+			<h1><a href="#troubleshooting">Troubleshooting</a></h1>
+			
+
+			<pre class="code">
+			&lt;?php get_trackdrive_number('8519320582390jf9082j9032', $options, $tokens); ?>
+
+			&lt;?php print_r($trackdrive_debug); ?>
+
+			&lt;?php print_r($trackdrive_error); ?>
+
+			</pre>
+		</div>
+
+
+	</div>
+</body>
+</html>

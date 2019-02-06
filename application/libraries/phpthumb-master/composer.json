@@ -1,0 +1,12 @@
+{
+    "name": "deresh/thumb",
+    "description": "Thumbnail lib from http://phpthumb.gxdlabs.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ian Selby",
+            "email": "ian@gen-x-design.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
